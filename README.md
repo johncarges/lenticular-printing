@@ -8,7 +8,6 @@ Lenticular printing works by interlacing two or more images into alternating col
 
 - Python 3.10+
 - [`uv`](https://docs.astral.sh/uv/) (recommended) or pip
-- `tkinter` (bundled with most Python distributions; needed for `screen-preview`)
 
 ## Installation
 
@@ -28,9 +27,9 @@ uv run lenticular --help
 
 A typical session has three phases:
 
-1. **Set up profiles** — describe your lens sheet, printer, and (optionally) screen once.
+1. **Set up profiles** — describe your lens sheet and printer once.
 2. **Calibrate** — print a test sheet to confirm your lens's true LPI.
-3. **Interlace** — process your images for printing, or preview on-screen.
+3. **Interlace** — process your images for printing.
 
 ---
 
@@ -58,25 +57,11 @@ uv run lenticular create-printer my_printer \
 # → profiles/printers/my_printer.json
 ```
 
-**Screen** (only needed for `screen-preview`)
-
-```bash
-uv run lenticular create-screen my_screen \
-    --physical-res 5120x2880 \
-    --diagonal 27 \
-    --scale-factor 2 \
-    --notes "iMac 5K 27-inch (Retina)"
-# → profiles/screens/my_screen.json
-```
-
-`--scale-factor` is 1 for standard displays, 2 for Retina/HiDPI.
-
 Inspect a saved profile at any time:
 
 ```bash
-uv run lenticular show-lens   profiles/lenses/my_lens.json
+uv run lenticular show-lens    profiles/lenses/my_lens.json
 uv run lenticular show-printer profiles/printers/my_printer.json
-uv run lenticular show-screen  profiles/screens/my_screen.json
 ```
 
 ---
@@ -134,26 +119,6 @@ uv run lenticular interlace a.jpg b.jpg c.jpg \
 
 ---
 
-### Step 3b — Preview on-screen
-
-Hold a physical lens sheet against your monitor to test the effect before printing.
-
-```bash
-uv run lenticular screen-preview photo_a.jpg photo_b.jpg \
-    --lens profiles/lenses/my_lens.json \
-    --screen profiles/screens/my_screen.json
-```
-
-The preview window renders the interlaced image at 1:1 physical pixels (handling Retina scaling automatically) and displays a calibration summary with physical PPI, logical PPI, and error percentage. Close the window to exit.
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--num-images N` | 2 | Number of source images |
-| `--width PX` | 85% of screen | Window width in logical pixels |
-| `--height PX` | 85% of screen | Window height in logical pixels |
-
----
-
 ## How it works
 
 Given a lens at **L** LPI and **N** source images:
@@ -185,17 +150,6 @@ For vertical lenses, columns alternate: `img0_col0`, `img1_col0`, …, `imgN_col
 | `paper_height_in` | float | Maximum paper height in inches |
 | `notes` | string | Optional notes (e.g. driver settings, media type) |
 
-### ScreenProfile (`profiles/screens/`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | Identifier |
-| `physical_width_px` | int | Physical pixel width |
-| `physical_height_px` | int | Physical pixel height |
-| `diagonal_in` | float | Screen diagonal in inches |
-| `scale_factor` | int | HiDPI scale factor (1 = standard, 2 = Retina 2×) |
-| `notes` | string | Optional notes |
-
 ## Development
 
 ```bash
@@ -210,13 +164,18 @@ uv run pytest
 ```
 lenticular interlace        Interlace images for printing
 lenticular calibrate        Generate a calibration sheet to find true LPI
-lenticular screen-preview   On-screen test (hold lens against monitor)
 lenticular create-lens      Create and save a lens profile
 lenticular create-printer   Create and save a printer profile
-lenticular create-screen    Create and save a screen/display profile
 lenticular show-lens        Display a saved lens profile
 lenticular show-printer     Display a saved printer profile
-lenticular show-screen      Display a saved screen profile
 ```
 
 Run any subcommand with `--help` for full flag details.
+
+---
+
+## Work in progress
+
+### Screen preview
+
+The `screen-preview` command (and the associated `create-screen` / `show-screen` profile commands) are present in the CLI but not reliably usable yet. The feature requires that the screen's physical pixel pitch closely matches the lens LPI — in practice this only works on a narrow range of high-DPI displays. Further work is needed to broaden compatibility and improve the on-screen calibration experience.
