@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Build / dist
+dist/
+build/
+*.egg-info/
+
+# macOS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+
+# Generated output (lenticular tool)
+interlaced_*.tif
+interlaced_*.png
+interlaced_*.jpg
+calibration_*.tif
