@@ -1,0 +1,7 @@
+{
+  "name": "Generic Photo Printer",
+  "max_dpi": 1440,
+  "paper_width_in": 8.5,
+  "paper_height_in": 11.0,
+  "notes": "Replace with your actual printer specs"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Canon PIXMA Pro-100",
+  "max_dpi": 4800,
+  "paper_width_in": 13.0,
+  "paper_height_in": 19.0,
+  "notes": "4800x2400 DPI max. Driver processes at 600 DPI natively (~6 dots/pixel at 100 PPI). IMPORTANT: Disable 'Auto Photo Fix' in Canon Professional Print & Layout — it applies sharpening that smears stripe edges. Print at 'Actual Size' / 100% scale. For lenticular, use Canon PPL app rather than macOS Preview for explicit size control."
+}
